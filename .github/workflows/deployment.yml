@@ -45,7 +45,7 @@ jobs:
           working-directory: ./Frontend
           command: npm run test:e2e
           start: npm run start-prod
-          wait-on: http://localhost:5173
+          wait-on: http://localhost:3002
 
       - name: move build file
         run: |
