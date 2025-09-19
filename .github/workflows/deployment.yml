@@ -42,14 +42,14 @@ jobs:
 
       - name: Frontend tests
         working-directory: ./Frontend
-        run: npm test
+        run: npm test:all
 
       - name: e2e tests
         uses: cypress-io/github-action@v5
         with:
           working-directory: ./Frontend
           command: npm run test:e2e
-          start: npm run start-prod
+          start: npm run start:test
           wait-on: http://localhost:3002
 
 
