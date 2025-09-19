@@ -32,16 +32,12 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./Frontend
-        run: npm install
-      - name: Check style
-        working-directory: ./Frontend
-        run: npm run eslint
-      - name: Build
-        working-directory: ./Frontend
-        run: npm run build
-      - name: Frontend tests
-        working-directory: ./Frontend
-        run: npm test
+        run: |
+          cd frontend
+          npm install 
+          npm run lint
+          npm run build
+          npm test
       - name: test
         run: npm test
       - name: e2e tests
@@ -51,6 +47,11 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+          
+      - name: move build file
+        run: |
+          rm -rf backend/dist
+          mv frontend/dist backend/
           
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' && !contains(toJson(join(github.event.commits.*.message)), '#skip')}}
