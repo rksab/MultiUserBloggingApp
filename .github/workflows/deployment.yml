@@ -17,30 +17,30 @@ jobs:
         with:
           node-version: "20"
       - name: Install backend dependencies
-        working-directory: ./backend
+        working-directory: ./Backend
         run: npm install
         
       - name: Backend tests
-        working-directory: ./backend
+        working-directory: ./Backend
         run: npm test
       - name: Install dependencies
-        working-directory: ./frontend
+        working-directory: ./Frontend
         run: npm install
       - name: Check style
-        working-directory: ./frontend
+        working-directory: ./Frontend
         run: npm run eslint
       - name: Build
-        working-directory: ./frontend
+        working-directory: ./Frontend
         run: npm run build
       - name: Frontend tests
-        working-directory: ./frontend
+        working-directory: ./Frontend
         run: npm test
       - name: test
         run: npm test
       - name: e2e tests
         uses: cypress-io/github-action@v5
         with:
-          working-directory: ./frontend
+          working-directory: ./Frontend
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
