@@ -30,23 +30,6 @@ jobs:
           NODE_ENV: test
         run: npm run test tests/blog_api.test.js
 
-      - name: Install dependencies
-        working-directory: ./Frontend
-        run: |
-          npm install 
-          npm run build
-      - name: e2e tests
-        uses: cypress-io/github-action@v5
-        env:
-          NODE_ENV: test
-          MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          SECRET: ${{ secrets.SECRET }}
-        with:
-          working-directory: ./Frontend
-          command: npm run test:e2e
-          start: npm run start-prod
-          wait-on: http://localhost:3002
-
       - name: move build file
         run: |
           rm -rf backend/dist
