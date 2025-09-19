@@ -36,7 +36,7 @@ jobs:
 
       - name: Frontend tests
         working-directory: ./Frontend
-        run: npm test:all
+        run: npm test
 
       - name: e2e tests
         uses: cypress-io/github-action@v5
