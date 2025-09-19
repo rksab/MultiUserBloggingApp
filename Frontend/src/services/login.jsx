@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseurl = `${import.meta.env.VITE_API_BASE_URL}/login`
+const baseurl = `${import.meta.env.VITE_API_BASE_URL}`
 
 
 const login = async credentials => {
