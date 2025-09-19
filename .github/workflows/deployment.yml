@@ -33,7 +33,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./Frontend
         run: |
-          npm install eslint@8 --save-dev
           npm install 
           npm run build
       - name: e2e tests
