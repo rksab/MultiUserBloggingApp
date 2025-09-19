@@ -33,11 +33,10 @@ jobs:
       - name: Install dependencies
         working-directory: ./Frontend
         run: |
-          cd Frontend
           npm install 
           npm run lint
           npm run build
-          
+
       - name: move build file
         run: |
           rm -rf backend/dist
