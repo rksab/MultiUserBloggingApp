@@ -11,7 +11,7 @@
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "fly logs",
     "lint": "eslint .",
-    "test": "jest --verbose --runInBand",
+    "test": "NODE_ENV=test node --test",
     "start:test": "NODE_ENV=test node index.js"
   },
   "keywords": [],
@@ -27,7 +27,6 @@
     "mongoose": "^8.9.6"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "supertest": "^7.0.0"
   }

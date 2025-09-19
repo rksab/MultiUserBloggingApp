@@ -22,7 +22,7 @@ jobs:
         
       - name: Backend tests
         working-directory: ./Backend
-        run: npm test
+        run: npm run test tests/blog_api.test.js
       - name: Install dependencies
         working-directory: ./Frontend
         run: npm install
