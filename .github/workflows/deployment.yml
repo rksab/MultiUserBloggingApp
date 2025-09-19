@@ -32,6 +32,7 @@ jobs:
 
       - name: go to the main directory
         run: cd
+             ls
 
       - name: Install dependencies
         working-directory: ./Frontend
