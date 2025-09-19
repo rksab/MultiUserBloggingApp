@@ -16,20 +16,35 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm install
+        
+      - name: Backend tests
+        working-directory: ./backend
+        run: npm test
       - name: Install dependencies
+        working-directory: ./frontend
         run: npm install
       - name: Check style
+        working-directory: ./frontend
         run: npm run eslint
       - name: Build
+        working-directory: ./frontend
         run: npm run build
+      - name: Frontend tests
+        working-directory: ./frontend
+        run: npm test
       - name: test
         run: npm test
       - name: e2e tests
         uses: cypress-io/github-action@v5
         with:
+          working-directory: ./frontend
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+          
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' && !contains(toJson(join(github.event.commits.*.message)), '#skip')}}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
@@ -53,7 +68,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
           args: |
-            Deployment failed for 
+            Deployment failed for {{ EVENT_PAYLOAD.repository.full_name }}
             Project: **{{ EVENT_PAYLOAD.repository.full_name }}**
             Commit: [`{{ EVENT_PAYLOAD.head_commit.id }}`]({{ EVENT_PAYLOAD.head_commit.url }})
             Message: _{{ EVENT_PAYLOAD.head_commit.message }}_
