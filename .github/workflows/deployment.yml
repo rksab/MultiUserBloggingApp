@@ -1,0 +1,73 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+      - name: Check style
+        run: npm run eslint
+      - name: Build
+        run: npm run build
+      - name: test
+        run: npm test
+      - name: e2e tests
+        uses: cypress-io/github-action@v5
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
+      - name: Trigger deployment
+        if: ${{ github.event_name == 'push' && !contains(toJson(join(github.event.commits.*.message)), '#skip')}}
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+      - name: Discord notification on success
+        if: ${{ success() && github.event_name == 'push' && !contains(toJson(join(github.event.commits.*.message)), '#skip') }}
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            Deployment Complete
+            [View Render Deployment](https://full-stack-open-pokedex-yucs.onrender.com/)
+            Project: **{{ EVENT_PAYLOAD.repository.full_name }}**
+            Commit: [`{{ EVENT_PAYLOAD.head_commit.id }}`]({{ EVENT_PAYLOAD.head_commit.url }})
+            Message: _{{ EVENT_PAYLOAD.head_commit.message }}_
+            Author: {{ EVENT_PAYLOAD.head_commit.author.username }}
+      - name: Discord notification on failure
+        if: ${{ failure() }}
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: |
+            Deployment failed for 
+            Project: **{{ EVENT_PAYLOAD.repository.full_name }}**
+            Commit: [`{{ EVENT_PAYLOAD.head_commit.id }}`]({{ EVENT_PAYLOAD.head_commit.url }})
+            Message: _{{ EVENT_PAYLOAD.head_commit.message }}_
+            Author: {{ EVENT_PAYLOAD.head_commit.author.username }}
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    if: ${{ github.event_name == 'push' && !contains(toJson(join(github.event.commits.*.message)), '#skip')}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.73.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch # patch instead of the default minor
+          WITH_V: true # optional, tags will be like v1.2.3
+          DRY_RUN: false
