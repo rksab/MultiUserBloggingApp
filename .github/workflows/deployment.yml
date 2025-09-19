@@ -22,7 +22,12 @@ jobs:
         
       - name: Backend tests
         working-directory: ./Backend
+        env:
+          NODE_ENV: test
+          TEST_MONGODB_URI: ${{ secrets.TEST_URL }}
+          SECRET: ${{ secrets.SECRET }}
         run: npm run test tests/blog_api.test.js
+
       - name: Install dependencies
         working-directory: ./Frontend
         run: npm install
