@@ -30,6 +30,29 @@ jobs:
           NODE_ENV: test
         run: npm run test tests/blog_api.test.js
 
+      - name: Install frontend dependencies
+        working-directory: ./Frontend
+        run: npm install
+
+      - name: build
+        working-directory: ./Frontend
+        run: |
+          npm run lint
+          npm run build
+
+      - name: Frontend tests
+        working-directory: ./Frontend
+        run: npm test
+
+      - name: e2e tests
+        uses: cypress-io/github-action@v5
+        with:
+          working-directory: ./Frontend
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:3002
+
+
       - name: move build file
         run: |
           rm -rf backend/dist
