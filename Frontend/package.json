@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "cypress:open": "cypress open",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "start:test": "vite --port 3002"
   },
   "dependencies": {
     "prop-types": "^15.8.1",
