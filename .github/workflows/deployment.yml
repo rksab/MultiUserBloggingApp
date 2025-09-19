@@ -24,7 +24,7 @@ jobs:
         working-directory: ./Backend
         env:
           NODE_ENV: test
-          TEST_MONGODB_URI: ${{ secrets.TEST_URL }}
+          TEST_URL: ${{ secrets.TEST_URL }}
           SECRET: ${{ secrets.SECRET }}
         run: npm run test tests/blog_api.test.js
 
