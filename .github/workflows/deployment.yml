@@ -33,6 +33,7 @@ jobs:
       - name: Install dependencies
         working-directory: ./Frontend
         run: |
+          npm install eslint@8 --save-dev
           npm install 
           npm run lint
           npm run build
