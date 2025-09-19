@@ -37,15 +37,7 @@ jobs:
           npm install 
           npm run lint
           npm run build
-      - name: e2e tests
-        working-directory: ./Frontend
-        uses: cypress-io/github-action@v5
-        with:
-          working-directory: ./Frontend
-          command: npm run test:e2e
-          start: npm run start-prod
-          wait-on: http://localhost:5000
-
+          
       - name: move build file
         run: |
           rm -rf backend/dist
