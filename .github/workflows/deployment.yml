@@ -30,7 +30,7 @@ jobs:
           NODE_ENV: test
         run: npm run test tests/blog_api.test.js
 
-      -name: go to the main directory
+      - name: go to the main directory
         run: cd
 
       - name: Install dependencies
