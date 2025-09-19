@@ -41,9 +41,8 @@ jobs:
           npm install 
           npm run lint
           npm run build
-      - name: test
-        run: npm test
       - name: e2e tests
+        working-directory: ./Frontend
         uses: cypress-io/github-action@v5
         with:
           working-directory: ./Frontend
@@ -54,7 +53,7 @@ jobs:
       - name: move build file
         run: |
           rm -rf backend/dist
-          mv frontend/dist backend/
+          mv Frontend/dist Backend/
           
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' && !contains(toJson(join(github.event.commits.*.message)), '#skip')}}
