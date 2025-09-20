@@ -2,7 +2,7 @@
 // checking if login page is showing
 describe('Login', function () {
   it('front page can be opened', () => {
-    cy.visit('http://localhost:3002')
+    cy.visit('http://localhost:5173')
     cy.contains('login')
   })
 
@@ -24,7 +24,7 @@ describe('Login', function () {
       cy.request('POST', 'http://localhost:3002/api/users', user1)
 
 
-      cy.visit("http://localhost:3002")
+      cy.visit("http://localhost:5173")
     })
     // check if the created user can login successfully
     it('succeeds with correct username and password', function () {
@@ -43,7 +43,7 @@ describe('Login', function () {
   })
   describe("logged in user operations", function () {
     beforeEach(function () {
-      cy.visit("http://localhost:3002")
+      cy.visit("http://localhost:5173")
     });
     it('logged in user can add a blog', function () {
       cy.get('#username').type('Lily')
