@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = `${import.meta.env.VITE_API_BASE_URL}/blogs`
+const baseUrl = `${import.meta.env.VITE_API_BASE_URL}/blogs` || 'http://localhost:3002/api'
 
 let token = null
 
@@ -23,7 +23,7 @@ const update = async (id, newblog) => {
   const config = {
     headers: { Authorization: token },
   }
-  const response = await axios.put(`${baseUrl}/${id}`, newblog,  config)
+  const response = await axios.put(`${baseUrl}/${id}`, newblog, config)
   return response.data
 }
 
@@ -35,7 +35,7 @@ const deleteBlog = async (id) => {
   return response.status
 }
 
-export default { 
-getAll, create, update, setToken, deleteBlog
+export default {
+  getAll, create, update, setToken, deleteBlog
 }
 
