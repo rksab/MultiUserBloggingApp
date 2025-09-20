@@ -15,6 +15,7 @@ jobs:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       TEST_URL: ${{ secrets.TEST_URL }}
       SECRET: ${{ secrets.SECRET }}
+      PORT: 3002
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
