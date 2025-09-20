@@ -35,10 +35,17 @@ jobs:
         run: |
           npm install
           npm install axios
+      
+      - name: Start backend in test mode
+        working-directory: ./Backend
+        run: |
+          npm run start:test &
+          sleep 5  
 
       - name: Frontend tests
         working-directory: ./Frontend
         run: npm test
+      
 
       - name: e2e tests
         uses: cypress-io/github-action@v5
