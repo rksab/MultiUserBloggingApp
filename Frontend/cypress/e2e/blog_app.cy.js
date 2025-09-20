@@ -16,7 +16,7 @@ describe('Blog app', function () {
       password: 'supersecret',
     }
     cy.request('POST', 'http://localhost:3002/api/users/', anotheruser)
-    cy.visit('http://localhost:5173')
+    cy.visit('http://localhost:3002')
   })
 
   it('Login form is shown', function () {
