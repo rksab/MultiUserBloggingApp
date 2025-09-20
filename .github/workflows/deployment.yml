@@ -40,11 +40,16 @@ jobs:
         working-directory: ./Backend
         run: |
           npm run start:test &
-          sleep 5  
+          sleep 10 
 
       - name: Frontend tests
         working-directory: ./Frontend
         run: npm test
+      
+      - name: Wait for backend to be ready
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:3002/api/users 2>/dev/null; do echo "Waiting for backend..."; sleep 2; done'
+          echo "Backend is ready"
       
 
       - name: e2e tests
