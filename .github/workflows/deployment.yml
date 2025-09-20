@@ -36,15 +36,16 @@ jobs:
           npm install
           npm install axios
       
+      - name: Frontend tests
+        working-directory: ./Frontend
+        run: npm test
+      
       - name: Start backend in test mode
         working-directory: ./Backend
         run: |
           npm run start:test &
           sleep 10 
 
-      - name: Frontend tests
-        working-directory: ./Frontend
-        run: npm test
       
       - name: Wait for backend to be ready
         run: |
